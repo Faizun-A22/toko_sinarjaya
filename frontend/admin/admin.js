@@ -14,9 +14,45 @@ document.addEventListener('DOMContentLoaded', function() {
     const navLinks = document.querySelectorAll('.casss-navbar-links');
     navLinks.forEach(link => {
         link.addEventListener('click', function() {
-            mobileMenu.classList.remove('casss-active');
-            navbarMenu.classList.remove('casss-active');
+            // Only close menu on mobile
+            if (window.innerWidth <= 768) {
+                mobileMenu.classList.remove('casss-active');
+                navbarMenu.classList.remove('casss-active');
+            }
         });
+    });
+    
+    // Dropdown menu functionality - PERUBAHAN PENTING DI SINI
+    const dropdownParents = document.querySelectorAll('.casss-dropdown');
+    
+    dropdownParents.forEach(parent => {
+        const dropdownLink = parent.querySelector('.casss-navbar-links');
+        
+        dropdownLink.addEventListener('click', function(e) {
+            // Prevent default link behavior on mobile
+            if (window.innerWidth <= 768) {
+                e.preventDefault();
+            }
+            
+            // Toggle active class on parent
+            parent.classList.toggle('casss-active');
+            
+            // Close other dropdowns
+            dropdownParents.forEach(otherParent => {
+                if (otherParent !== parent) {
+                    otherParent.classList.remove('casss-active');
+                }
+            });
+        });
+    });
+    
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.casss-dropdown')) {
+            dropdownParents.forEach(parent => {
+                parent.classList.remove('casss-active');
+            });
+        }
     });
     
     // SPA navigation
@@ -50,12 +86,44 @@ document.addEventListener('DOMContentLoaded', function() {
     // Handle nav link clicks
     navItems.forEach(item => {
         item.addEventListener('click', function(e) {
+            // Skip dropdown parents (handled separately)
+            if (this.parentElement.classList.contains('casss-dropdown')) {
+                // On desktop, allow normal navigation for dropdown parents
+                if (window.innerWidth > 768) {
+                    e.preventDefault();
+                    return;
+                }
+            }
+            
             e.preventDefault();
             const sectionId = this.getAttribute('href').substring(1);
             setActiveSection(sectionId);
             
             // Update URL without reload
             history.pushState(null, null, `#${sectionId}`);
+        });
+    });
+    
+    // Handle dropdown item clicks
+    const dropdownItems = document.querySelectorAll('.casss-dropdown-item');
+    dropdownItems.forEach(item => {
+        item.addEventListener('click', function(e) {
+            e.preventDefault();
+            const sectionId = this.getAttribute('href').substring(1);
+            setActiveSection(sectionId);
+            
+            // Update URL without reload
+            history.pushState(null, null, `#${sectionId}`);
+            
+            // Close dropdowns and mobile menu
+            dropdownParents.forEach(parent => {
+                parent.classList.remove('casss-active');
+            });
+            
+            if (window.innerWidth <= 768) {
+                mobileMenu.classList.remove('casss-active');
+                navbarMenu.classList.remove('casss-active');
+            }
         });
     });
     
@@ -755,7 +823,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const transactionForm = document.getElementById('casss-transaction-form');
     const transactionIdInput = document.getElementById('casss-transaction-id');
     const transactionInvoiceInput = document.getElementById('casss-transaction-invoice');
-    const transactionDateInput = document.getElementById('casss-transaction-date');
+    const transactionFilterDateInput = document.getElementById('casss-transaction-date');
+const transactionModalDateInput = document.getElementById('casss-transaction-modal-date');
     const transactionCustomerSelect = document.getElementById('casss-transaction-customer');
     const transactionTypeSelect = document.getElementById('casss-transaction-type');
     const transactionPaymentSelect = document.getElementById('casss-transaction-payment');
@@ -1000,7 +1069,7 @@ async function loadTransactions() {
         transactionForm.reset();
         transactionIdInput.value = '';
         transactionInvoiceInput.value = generateInvoiceNumber('penjualan');
-        transactionDateInput.value = new Date().toISOString().split('T')[0];
+        transactionModalDateInput.value = new Date().toISOString().split('T')[0];
         transactionItemsContainer.innerHTML = '';
         itemsTotalSpan.textContent = 'Rp 0';
         transactionTotalInput.value = '0';
@@ -1145,8 +1214,8 @@ async function loadTransactions() {
         });
         
             document.querySelectorAll('#casss-transaction-items .casss-delete-btn').forEach(btn => {
-        btn.addEventListener('click', () => deletePurchaseItem(Number(btn.dataset.index)));
-    });
+    btn.addEventListener('click', () => deleteTransactionItem(Number(btn.dataset.index)));
+});
 }
     
 
@@ -1175,9 +1244,13 @@ async function loadTransactions() {
     // Fungsi untuk menghapus item transaksi
     function deleteTransactionItem(index) {
         itemModal.style.display = 'block';
-        transactionItems.splice(index, 1);
-        renderTransactionItems();
-        calculateTotal();
+            transactionItems.splice(index, 1);
+    
+    // Render ulang daftar item
+    renderTransactionItems();
+    
+    // Hitung ulang total transaksi
+    calculateTotal()
     }
 
     // Fungsi untuk menghitung total transaksi
@@ -1194,64 +1267,69 @@ async function loadTransactions() {
     transactionDiscountInput.addEventListener('input', calculateTotal);
 
     // Fungsi untuk menyimpan transaksi
-    async function saveTransaction(e) {
-        e.preventDefault();
-        
-        // Validasi
-        if (transactionItems.length === 0) {
-            showAlert('error', 'Transaksi harus memiliki minimal 1 item');
-            return;
-        }
-        
+async function saveTransaction(e) {
+    e.preventDefault();
+    
+    // Validasi item
+    if (transactionItems.length === 0) {
+        showAlert('error', 'Transaksi harus memiliki minimal 1 item');
+        return;
+    }
+    
+    // Validasi tanggal
+        if (!transactionModalDateInput.value) { // Sebelumnya: transactionDateInput
+        showAlert('error', 'Tanggal transaksi harus diisi');
+        return;
+    }
+
+    try {
+        // Pastikan format tanggal sesuai dengan yang diinput user (YYYY-MM-DD)
+        const transactionDate = transactionModalDateInput.value; 
+        console.log('Tanggal yang akan dikirim:', transactionDate); // Debugging
+
         const transactionData = {
             customer: transactionCustomerSelect.value,
-            transactionDate: transactionDateInput.value,
+            transactionDate: transactionDate,
             items: transactionItems.map(item => ({
                 productId: item.productId,
                 price: item.price,
                 quantity: item.quantity
             })),
             discount: parseFloat(transactionDiscountInput.value) || 0,
-            paymentMethod: transactionPaymentSelect.value
+            paymentMethod: transactionPaymentSelect.value,
+            no_invoice: transactionInvoiceInput.value
         };
         
-        try {
-            let response;
+        console.log('Data lengkap yang dikirim:', transactionData); // Debugging
+        
+        const url = currentTransactionId 
+            ? `http://localhost:3000/api/transaksi/${currentTransactionId}`
+            : 'http://localhost:3000/api/transaksi';
             
-            if (currentTransactionId) {
-                // Update existing transaction
-                response = await fetch(`http://localhost:3000/api/transaksi/${currentTransactionId}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(transactionData)
-                });
-            } else {
-                // Create new transaction
-                response = await fetch('http://localhost:3000/api/transaksi',{
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(transactionData)
-                });
-            }
-            
-            const data = await response.json();
-            
-            if (response.ok) {
-                showAlert('success', currentTransactionId ? 'Transaksi berhasil diperbarui' : 'Transaksi berhasil dibuat');
-                transactionModal.style.display = 'none';
-                loadTransactions();
-            } else {
-                throw new Error(data.message || 'Gagal menyimpan transaksi');
-            }
-        } catch (error) {
-            console.error('Error saving transaction:', error);
-            showAlert('error', error.message);
+        const response = await fetch(url, {
+            method: currentTransactionId ? 'PUT' : 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(transactionData)
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok) {
+            showAlert('success', currentTransactionId ? 'Transaksi berhasil diperbarui' : 'Transaksi berhasil dibuat');
+            transactionModal.style.display = 'none';
+            loadTransactions();
+        } else {
+            throw new Error(data.message || 'Gagal menyimpan transaksi');
         }
+    } catch (error) {
+        console.error('Error saving transaction:', error);
+        showAlert('error', error.message);
     }
+}
+
+
 const API_URL = 'http://localhost:3000/api';
 
     // Fungsi untuk melihat detail transaksi
@@ -1329,7 +1407,12 @@ async function editTransaction(id) {
             // Isi form dengan data transaksi
             transactionIdInput.value = transaction.id_penjualan;
             transactionInvoiceInput.value = transaction.no_invoice;
-            transactionDateInput.value = transaction.tanggal_penjualan.split('T')[0];
+            
+            // Pastikan format tanggal sesuai dengan input date (YYYY-MM-DD)
+            const transactionDate = new Date(transaction.tanggal_penjualan);
+            const formattedDate = transactionDate.toISOString().split('T')[0];
+            transactionModalDateInput.value = formattedDate;
+            
             transactionCustomerSelect.value = transaction.id_pelanggan;
             transactionPaymentSelect.value = transaction.metode_pembayaran;
             transactionDiscountInput.value = transaction.diskon || 0;
@@ -1351,6 +1434,9 @@ async function editTransaction(id) {
         showAlert('error', error.message);
     }
 }
+
+
+
     // Fungsi untuk menampilkan konfirmasi hapus
     function showDeleteConfirmation(id) {
         currentTransactionId = id;
@@ -2011,7 +2097,8 @@ document.addEventListener('DOMContentLoaded', function() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(purchaseData)
         });
-        
+                const responseData = await response.json();
+        console.log('Response:', responseData); 
         if (!response.ok) {
             throw new Error(`HTTP ${response.status} - ${response.statusText}`);
         }
@@ -2021,8 +2108,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 ? 'Pembelian berhasil diperbarui' 
                 : 'Pembelian berhasil dibuat');
                 
-        transactionModal.style.display = 'none';
+        if (transactionSearch) transactionSearch.value = '';
+        if (transactionSupplierFilter) transactionSupplierFilter.value = 'all';
+        if (transactionDateFilter) transactionDateFilter.value = '';
+
         currentPage = 1;
+
+        if (transactionModal) transactionModal.style.display = 'none';
         await loadPurchaseTransactions();
         
     } catch (error) {
@@ -2448,85 +2540,67 @@ if (product.stock === 0) {
     
     // Submit form produk
     function handleProductFormSubmit(e) {
-        e.preventDefault();
+    e.preventDefault();
+    
+    const productData = {
+        code: document.getElementById('casss-product-code').value,
+        name: document.getElementById('casss-product-name').value,
+        category: document.getElementById('casss-product-category').value,
+        weight: parseFloat(document.getElementById('casss-product-weight').value),
+        stock: parseInt(document.getElementById('casss-product-stock').value),
+        buyPrice: parseInt(document.getElementById('casss-product-buy-price').value),
+        sellPrice: parseInt(document.getElementById('casss-product-sell-price').value),
+        description: document.getElementById('casss-product-description').value
+    };
+    
+    const url = currentProductId 
+        ? `http://localhost:3000/api/products/${currentProductId}`
+        : 'http://localhost:3000/api/products';
         
-        const productData = {
-            code: document.getElementById('casss-product-code').value,
-            name: document.getElementById('casss-product-name').value,
-            category: document.getElementById('casss-product-category').value,
-            weight: parseFloat(document.getElementById('casss-product-weight').value),
-            stock: parseInt(document.getElementById('casss-product-stock').value),
-            buyPrice: parseInt(document.getElementById('casss-product-buy-price').value),
-            sellPrice: parseInt(document.getElementById('casss-product-sell-price').value),
-            description: document.getElementById('casss-product-description').value
-        };
+    const method = currentProductId ? 'PUT' : 'POST';
+
+    fetch(url, {
+        method: method,
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(productData)
+    })
+    .then(async response => {
+        const data = await response.json();
+        if (!response.ok) {
+            throw new Error(data.message || 'Terjadi kesalahan');
+        }
+        return data;
+    })
+    .then(data => {
+        // Pastikan data yang diterima sesuai format
+        const newProduct = {
+    id: data.id || currentProductId || Math.max(0, ...inventoryProducts.map(p => p.id)) + 1,
+    ...productData
+};
+
         
         if (currentProductId) {
             // Update existing product
             const index = inventoryProducts.findIndex(p => p.id === currentProductId);
             if (index !== -1) {
-                inventoryProducts[index] = { ...inventoryProducts[index], ...productData };
+                inventoryProducts[index] = newProduct;
             }
         } else {
-            // Add new product
-            const newId = inventoryProducts.length > 0 
-                ? Math.max(...inventoryProducts.map(p => p.id)) + 1 
-                : 1;
-            inventoryProducts.push({ id: newId, ...productData });
+            // Add new product (tambahkan di awal array)
+            inventoryProducts.unshift(newProduct);
         }
         
-        // Di sini Anda akan mengirim data ke server/database
-
-        const url = currentProductId 
-  ? `http://localhost:3000/api/products/${currentProductId}`
-  : 'http://localhost:3000/api/products';
-            
-        const method = currentProductId ? 'PUT' : 'POST';
-        
-
-        fetch(url, {
-  method: method,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  body: JSON.stringify(productData)
-})
-.then(async response => {
-  const data = await response.json();
-  if (!response.ok) {
-    // Jika error dari server dengan message khusus
-    throw new Error(data.message || 'Terjadi kesalahan');
-  }
-  return data;
-})
-.then(data => {
-  // Normalisasi data
-  const productData = data.product || data;
-  
-  // Pastikan semua field ada dan tipenya benar
-  productData.weight = parseFloat(productData.weight) || 0;
-  productData.category = productData.category || '';
-  
-  if (currentProductId) {
-    const index = inventoryProducts.findIndex(p => p.id === currentProductId);
-    if (index !== -1) inventoryProducts[index] = productData;
-  } else {
-    inventoryProducts.unshift(productData);
-  }
-  
-  renderInventory();
-  closeProductModal();
-  alert('Produk berhasil disimpan!');
-})
-.catch(error => {
-  console.error('Error:', error);
-  alert(`Gagal menyimpan produk: ${error.message}`);
-});
-
-        // Untuk contoh, kita update UI langsung
         renderInventory();
         closeProductModal();
-    }
+        alert('Produk berhasil disimpan!');
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert(`Gagal menyimpan produk: ${error.message}`);
+    });
+}
     
     // Hapus produk
     function handleDeleteProduct() {
@@ -3286,7 +3360,6 @@ function populateRecentTransactions(data) {
             <td class="casss-table-data">${transaction.no_invoice}</td>
             <td class="casss-table-data">${transaction.nama_pelanggan || 'Tanpa Nama'}</td>
             <td class="casss-table-data">${formatCurrency(transaction.total_bayar)}</td>
-            <td class="casss-table-data"><span class="casss-badge ${statusClass}">${transaction.status_pembayaran}</span></td>
         `;
         
         tbody.appendChild(row);

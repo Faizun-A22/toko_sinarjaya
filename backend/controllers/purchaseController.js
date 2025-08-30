@@ -226,7 +226,7 @@ const createPurchase = async (req, res) => {
             supplier_id,
             items,
             total_amount,
-            payment_status,
+            payment_method,
             notes
         } = req.body;
 
@@ -300,41 +300,41 @@ const updatePurchase = async (req, res) => {
         await connection.beginTransaction();
 
         const { id } = req.params;
-        const {
-            purchase_number,
-            purchase_date,
-            supplier_id,
-            items,
-            total_amount,
-            payment_status,
-            notes
-        } = req.body;
+        const { purchase_number, purchase_date, supplier_id, items, total_amount, payment_method, notes } = req.body;
 
-        // Update purchase header
-        await connection.query(`
+        console.log('Data received:', { id, ...req.body }); // Log data masuk
+
+        // 1. Update header pembelian
+        const [updateResult] = await connection.query(`
             UPDATE pembelian SET
                 no_pembelian = ?,
                 id_supplier = ?,
                 tanggal_pembelian = ?,
                 total_harga = ?,
-                catatan = ?
+                metode_pembayaran = ?,
+                catatan = ?,
+                updated_at = CURRENT_TIMESTAMP
             WHERE id_pembelian = ?
         `, [
             purchase_number,
             supplier_id,
             purchase_date,
             total_amount,
-            payment_status,
+            payment_method, // Pastikan kolom ini ada di database
             notes || null,
             id
         ]);
 
-        // Delete existing items
-        await connection.query(`
-            DELETE FROM detail_pembelian WHERE id_pembelian = ?
-        `, [id]);
+        console.log('Update result:', updateResult); // Log hasil update
 
-        // Insert new items
+        // 2. Hapus item lama
+        const [deleteResult] = await connection.query(`
+            DELETE FROM detail_pembelian 
+            WHERE id_pembelian = ?
+        `, [id]);
+        console.log('Deleted rows:', deleteResult.affectedRows);
+
+        // 3. Insert item baru
         for (const item of items) {
             await connection.query(`
                 INSERT INTO detail_pembelian (
@@ -354,12 +354,33 @@ const updatePurchase = async (req, res) => {
         }
 
         await connection.commit();
+        
+        // Verifikasi perubahan
+        const [updatedData] = await connection.query(`
+            SELECT * FROM pembelian WHERE id_pembelian = ?
+        `, [id]);
+        console.log('Verified data:', updatedData[0]);
 
-        res.json({ message: 'Purchase updated successfully' });
+        res.json({ 
+            success: true,
+            message: 'Purchase updated successfully',
+            affectedRows: updateResult.affectedRows
+        });
+
     } catch (error) {
         await connection.rollback();
-        console.error('Error updating purchase:', error);
-        res.status(500).json({ message: 'Server error while updating purchase' });
+        console.error('Full error:', {
+            message: error.message,
+            sqlMessage: error.sqlMessage,
+            stack: error.stack,
+            sql: error.sql
+        });
+        res.status(500).json({ 
+            success: false,
+            message: 'Failed to update purchase',
+            error: error.message,
+            sqlError: error.sqlMessage
+        });
     } finally {
         connection.release();
     }

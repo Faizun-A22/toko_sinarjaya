@@ -194,7 +194,7 @@ const createTransaction = async (req, res) => {
       paymentMethod,
       notes = '' 
     } = req.body;
-    
+    console.log('Received transactionDate:', transactionDate);
     // Validasi wajib
     if (!items || items.length === 0) {
       return res.status(400).json({ error: "Items tidak boleh kosong" });

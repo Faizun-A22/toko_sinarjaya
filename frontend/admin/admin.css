@@ -1658,6 +1658,26 @@ body {
    =================== */
 
 @media (max-width: 1200px) {
+
+    .casss-summary-card {
+    display: flex;
+    flex-direction: column; /* label di atas, value di bawah */
+    align-items: center;    /* biar rata tengah */
+    justify-content: center;
+    text-align: center;     /* teks di tengah */
+}
+
+.casss-summary-label {
+    font-size: 0.9rem;
+    margin-bottom: 0.3rem; /* kasih jarak sedikit dari angka */
+    display: block;
+}
+
+.casss-summary-value {
+    font-size: 1.4rem;
+    font-weight: bold;
+}
+
     .casss-navbar-container,
     .casss-dashboard-container,
     .casss-finance-container,
@@ -1703,7 +1723,6 @@ body {
 
 
   .casss-chart-wrapper {
-    width:50%;
     max-width:700px;
   }
     .casss-charts-row {
@@ -1719,7 +1738,198 @@ body {
     }
 }
 
+
 @media (max-width: 768px) {
+.casss-summary-card {
+    display: flex;
+    flex-direction: column; /* label di atas, value di bawah */
+    align-items: center;    /* biar rata tengah */
+    justify-content: center;
+    text-align: center;     /* teks di tengah */
+}
+
+.casss-summary-label {
+    font-size: 0.9rem;
+    margin-bottom: 0.3rem; /* kasih jarak sedikit dari angka */
+    display: block;
+}
+
+.casss-summary-value {
+    font-size: 1.4rem;
+    font-weight: bold;
+}
+    .casss-summary-cards {
+        grid-template-columns: 1fr; /* jadi 1 kolom */
+    }
+    .casss-table-container {
+        width: 100%;
+        overflow-x: auto;
+        margin-bottom: 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Judul tabel */
+    .casss-table-title {
+        text-align: center;
+        font-size: 0.8rem;
+        padding: 0.5rem 0.4rem;
+        margin: 0;
+        background-color: #f8f9fa;
+        border-bottom: 1px solid #dee2e6;
+    }
+
+    /* Style dasar untuk semua tabel */
+    .casss-dashboard-table,
+    .casss-finance-table,
+    .casss-transaction-table,
+    .purchsss-transaction-table,
+    .casss-inventory-table,
+    .casss-suppliers-table,
+    .casss-customers-table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 600px; /* agar bisa discroll kalau sempit */
+    }
+
+    /* Header tabel */
+    .casss-dashboard-table th,
+    .casss-finance-table th,
+    .casss-transaction-table th,
+    .purchsss-transaction-table th,
+    .casss-inventory-table th,
+    .casss-suppliers-table th,
+    .casss-customers-table th {
+        padding: 0.3rem 0.2rem;
+        font-size: 0.7rem;
+        text-align: left;
+        background-color: #f1f1f1;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+
+    /* Data tabel */
+    .casss-dashboard-table td,
+    .casss-finance-table td,
+    .casss-transaction-table td,
+    .purchsss-transaction-table td,
+    .casss-inventory-table td,
+    .casss-suppliers-table td,
+    .casss-customers-table td {
+        padding: 0.3rem 0.2rem;
+        font-size: 0.7rem;
+        border-bottom: 1px solid #dee2e6;
+        white-space: nowrap;
+    }
+
+    /* Padding kolom pertama & terakhir biar seimbang */
+    .casss-dashboard-table th:first-child,
+    .casss-dashboard-table td:first-child,
+    .casss-finance-table th:first-child,
+    .casss-finance-table td:first-child,
+    .casss-transaction-table th:first-child,
+    .casss-transaction-table td:first-child,
+    .purchsss-transaction-table th:first-child,
+    .purchsss-transaction-table td:first-child,
+    .casss-inventory-table th:first-child,
+    .casss-inventory-table td:first-child,
+    .casss-suppliers-table th:first-child,
+    .casss-suppliers-table td:first-child,
+    .casss-customers-table th:first-child,
+    .casss-customers-table td:first-child {
+        padding-left: 1rem;
+    }
+
+    .casss-dashboard-table th:last-child,
+    .casss-dashboard-table td:last-child,
+    .casss-finance-table th:last-child,
+    .casss-finance-table td:last-child,
+    .casss-transaction-table th:last-child,
+    .casss-transaction-table td:last-child,
+    .purchsss-transaction-table th:last-child,
+    .purchsss-transaction-table td:last-child,
+    .casss-inventory-table th:last-child,
+    .casss-inventory-table td:last-child,
+    .casss-suppliers-table th:last-child,
+    .casss-suppliers-table td:last-child,
+    .casss-customers-table th:last-child,
+    .casss-customers-table td:last-child {
+        padding-right: 1rem;
+    }
+
+    /* Tombol aksi dalam tabel */
+    .casss-detail-btn,
+    .casss-action-btn,
+    .casss-transaction-edit-btn,
+    .casss-action-icon,
+    .casss-supplier-edit-btn,
+    .casss-delete-btn,
+    .purchsss-action-btn,
+    .purchsss-view-btn,
+    .purchsss-edit-btn,
+    .purchsss-delete-btn {
+        padding: 0.3rem 0.5rem;
+        font-size: 0.65rem;
+        margin: 0.1rem;
+    }
+
+    /* Ikon dalam tombol */
+    .casss-action-btn i,
+    .casss-action-icon i,
+    .purchsss-action-btn i {
+        font-size: 0.7rem;
+    }
+
+    
+    /* Layout charts row untuk tablet */
+    .casss-charts-row {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+    
+    .casss-chart-container {
+        width: 100%;
+        background: white;
+        border-radius: 12px;
+        padding: 1.2rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+    
+    .casss-chart-title {
+        font-size: 1.1rem;
+        margin-bottom: 1rem;
+        text-align: center;
+        color: #2d3748;
+        font-weight: 600;
+    }
+    
+    .casss-chart-wrapper {
+        position: relative;
+        height: 250px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    /* Penyesuaian khusus untuk chart penjualan */
+    #casss-sales-chart {
+        width: 100% !important;
+        height: 100% !important;
+        max-height: 240px;
+    }
+    
+    /* Penyesuaian khusus untuk chart inventory */
+    #casss-inventory-chart {
+        width: 100% !important;
+        height: 100% !important;
+        max-width: 280px;
+        max-height: 280px;
+        margin: 0 auto;
+    }
+    
+    /* Navbar styling untuk tablet */
     .casss-navbar-menu {
         position: fixed;
         left: -100%;
@@ -1774,75 +1984,86 @@ body {
         color: var(--primary-black);
     }
     
-    .casss-transaction-table td, .casss-inventory-table td, .casss-suppliers-table td, .casss-customers-table td, .casss-finance-table td, .purchsss-transaction-table td{
-        padding:.4rem;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-    color: var(--primary-black);
-    transition: var(--transition-fast);
+
+    
+    /* Table styling untuk tablet */
+    .casss-transaction-table td, 
+    .casss-inventory-table td, 
+    .casss-suppliers-table td, 
+    .casss-customers-table td, 
+    .casss-finance-table td, 
+    .purchsss-transaction-table td {
+        padding: .6rem;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        color: var(--primary-black);
+        transition: var(--transition-fast);
+        font-size: 0.85rem;
     }
-    .casss-delete-btn, .purchsss-delete-btn{
+    
+    .casss-delete-btn, 
+    .purchsss-delete-btn {
         color: black;
+        font-size: 0.8rem;
+        padding: 0.5rem 0.8rem;
     }
+    
+    /* Judul section */
     .casss-dashboard-title,
     .casss-section-title,
     .purchsss-section-title {
-        font-size: 2rem;
-        margin-bottom: 2rem;
+        font-size: 1.8rem;
+        margin-bottom: 1.5rem;
     }
     
+    /* Summary cards */
     .casss-summary-cards {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
         gap: 1rem;
     }
     
     .casss-summary-card {
-        padding: 1.5rem;
+        padding: 1.2rem;
     }
     
     .casss-summary-icon {
-        width: 50px;
-        height: 50px;
-        font-size: 1.2rem;
+        width: 45px;
+        height: 45px;
+        font-size: 1.1rem;
     }
     
     .casss-summary-value {
-        font-size: 1.5rem;
+        font-size: 1.4rem;
     }
     
-    .casss-chart-wrapper {
-        height: 250px;
-    }
-    
+    /* Controls */
     .casss-transaction-controls,
     .casss-inventory-actions,
     .casss-suppliers-actions,
     .casss-customers-actions,
     .casss-finance-controls,
     .purchsss-transaction-controls {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 1rem;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.8rem;
     }
     
     .casss-search-filter,
     .purchsss-search-filter {
-        flex-direction: column;
+        flex-direction: row;
+        flex-wrap: wrap;
         gap: 0.75rem;
     }
     
-    .casss-transaction-summary,
-    .purchsss-transaction-summary {
-        grid-template-columns: 1fr;
-    }
-    
+    /* Modal */
     .casss-modal-content {
-        width: 95%;
-        margin: 1rem;
+        width: 85%;
+        margin: 2rem auto;
     }
     
     .casss-large-modal,
     .purchsss-large-modal {
-        max-width: 95%;
+        max-width: 90%;
     }
     
     .casss-form-columns,
@@ -1853,28 +2074,19 @@ body {
     
     .casss-form-actions,
     .purchsss-form-actions {
-        flex-direction: column;
+        flex-direction: row;
+        flex-wrap: wrap;
     }
     
-    .casss-detail-header,
-    .purchsss-detail-header {
-        grid-template-columns: 1fr;
-        gap: 1rem;
-    }
-    
-    .casss-detail-actions,
-    .purchsss-detail-actions {
-        flex-direction: column;
-    }
-    
+    /* Footer */
     .casss-footer-container {
         grid-template-columns: 1fr;
-        gap: 2rem;
+        gap: 1.5rem;
         padding: 2rem 1.5rem 1rem;
     }
     
     .casss-footer-links {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: repeat(3, 1fr);
     }
     
     /* Table Responsive */
@@ -1893,26 +2105,67 @@ body {
     .casss-customers-table,
     .casss-finance-table,
     .purchsss-transaction-table {
-        min-width: 300px;
+        min-width: 700px;
     }
     
+    /* Pagination */
     .casss-transaction-pagination,
     .casss-inventory-pagination,
     .casss-suppliers-pagination,
     .casss-customers-pagination,
     .casss-pagination,
     .purchsss-transaction-pagination {
-        flex-direction: column;
+        flex-direction: row;
         gap: 1rem;
         text-align: center;
     }
 }
 
-@media (max-width: 480px) {
-    .casss-navbar-container {
+/* Tambahan untuk layar yang lebih kecil di dalam range 768px */
+@media (max-width: 650px) {
+    .casss-charts-row {
+        gap: 1rem;
+    }
+    
+    .casss-chart-container {
         padding: 1rem;
     }
     
+    .casss-chart-wrapper {
+        height: 220px;
+    }
+    
+    .casss-summary-cards {
+        grid-template-columns: 1fr;
+    }
+    
+    .casss-footer-links {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+/* Untuk orientasi landscape pada tablet */
+@media (max-width: 768px) and (orientation: landscape) {
+    .casss-charts-row {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    
+    .casss-chart-container {
+        flex: 1 1 calc(50% - 1rem);
+        min-width: 300px;
+    }
+    
+    .casss-navbar-menu {
+        max-height: 70vh;
+        overflow-y: auto;
+    }
+}
+
+
+
+@media (max-width: 480px) {
+    /* Container utama */
     .casss-dashboard-container,
     .casss-finance-container,
     .casss-transaction-container,
@@ -1923,12 +2176,33 @@ body {
         padding: 1rem;
     }
     
+    /* Judul section */
     .casss-dashboard-title,
     .casss-section-title,
     .purchsss-section-title {
-        font-size: 1.75rem;
+        font-size: 1.5rem;
     }
     
+    /* Navbar */
+    .casss-navbar-container {
+        padding-right: 50px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        margin-top: 0px;
+    }
+    
+    /* Chart */
+    #casss-sales-chart {
+        width: 100% !important;
+        height: 150px !important;
+    }
+
+    .casss-chart-wrapper {
+        height: auto;
+        width: 100%; 
+    }
+    
+    /* Summary card */
     .casss-summary-card {
         padding: 1rem;
         flex-direction: column;
@@ -1936,10 +2210,197 @@ body {
         gap: 1rem;
     }
     
-    .casss-chart-wrapper {
-        height: 200px;
+    /* Gaya tabel dasar yang konsisten untuk semua tabel */
+    .casss-table-title {
+    font-size: .9rem;
+    font-weight: 600;
+    padding: .5rem 1rem;
+    background: var(--gradient-gold);
+    color: var(--primary-black);
+    margin: 0;
     }
     
+    .casss-dashboard-table,
+    .casss-finance-table,
+    .casss-inventory-table,
+    .casss-suppliers-table,
+    .casss-customers-table,
+    .casss-transaction-table,
+    .purchsss-transaction-table {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        margin-bottom: 1rem;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        font-size: 0.8rem;
+    }
+    
+    /* Header dan sel tabel */
+    .casss-dashboard-table th,
+    .casss-dashboard-table td,
+    .casss-finance-table th,
+    .casss-finance-table td,
+    .casss-inventory-table th,
+    .casss-inventory-table td,
+    .casss-suppliers-table th,
+    .casss-suppliers-table td,
+    .casss-customers-table th,
+    .casss-customers-table td,
+    .casss-transaction-table th,
+    .casss-transaction-table td,
+    .purchsss-transaction-table th,
+    .purchsss-transaction-table td {
+        font-size: 0.65rem;
+        padding: 4px 6px;
+        white-space: nowrap;
+    }
+    
+    /* Header tabel */
+    .casss-dashboard-table th,
+    .casss-finance-table th,
+    .casss-inventory-table th,
+    .casss-suppliers-table th,
+    .casss-customers-table th,
+    .casss-transaction-table th,
+    .purchsss-transaction-table th {
+        font-weight: 600;
+        color: #333;
+        background-color: #f0f2f5;
+        text-align: left;
+    }
+    
+    /* Body tabel */
+    .casss-dashboard-table td,
+    .casss-finance-table td,
+    .casss-inventory-table td,
+    .casss-suppliers-table td,
+    .casss-customers-table td,
+    .casss-transaction-table td,
+    .purchsss-transaction-table td {
+        border-bottom: 1px solid #eaeaea;
+    }
+    
+    /* Baris terakhir */
+    .casss-dashboard-table tr:last-child td,
+    .casss-finance-table tr:last-child td,
+    .casss-inventory-table tr:last-child td,
+    .casss-suppliers-table tr:last-child td,
+    .casss-customers-table tr:last-child td,
+    .casss-transaction-table tr:last-child td,
+    .purchsss-transaction-table tr:last-child td {
+        border-bottom: none;
+    }
+    
+    /* Badge */
+    .casss-badge {
+        font-size: 0.7rem;
+        padding: 2px 6px;
+    }
+    
+    /* Kolom aksi untuk semua tabel */
+    .casss-dashboard-table .casss-actions,
+    .casss-finance-table .casss-actions,
+    .casss-inventory-table .casss-actions,
+    .casss-suppliers-table .casss-actions,
+    .casss-customers-table .casss-actions,
+    .casss-transaction-table .casss-actions,
+    .purchsss-transaction-table .casss-actions {
+        display: flex;
+        gap: 6px;
+        justify-content: center;
+        padding: 4px 2px;
+    }
+    
+    /* Tombol untuk semua tabel */
+    .casss-dashboard-table button,
+    .casss-finance-table button,
+    .casss-inventory-table button,
+    .casss-suppliers-table button,
+    .casss-customers-table button,
+    .casss-transaction-table button,
+    .purchsss-transaction-table button {
+        font-size: 0.6rem;
+        padding: 2px 4px;
+        margin: 0 1px;
+        border-radius: 4px;
+        border: none;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        min-width: 30px;
+    }
+    
+    /* Tombol detail */
+    .casss-finance-table button.casss-detail-btn {
+        font-size: 0.6rem;
+        padding: 2px 4px;
+    }
+    
+    /* Tombol edit */
+    .casss-suppliers-table .casss-supplier-edit-btn,
+    .casss-customers-table button:first-child {
+        background-color: #4CAF50;
+        color: white;
+    }
+    
+    .casss-suppliers-table .casss-supplier-edit-btn:hover,
+    .casss-customers-table button:first-child:hover {
+        background-color: #45a049;
+    }
+    
+    /* Tombol hapus */
+    .casss-suppliers-table .casss-delete-btn,
+    .casss-customers-table button:last-child {
+        background-color: #f44336;
+        color: white;
+    }
+    
+    .casss-suppliers-table .casss-delete-btn:hover,
+    .casss-customers-table button:last-child:hover {
+        background-color: #da190b;
+    }
+    
+    /* Ikon untuk semua tabel */
+    .casss-dashboard-table i,
+    .casss-finance-table i,
+    .casss-inventory-table i,
+    .casss-suppliers-table i,
+    .casss-customers-table i,
+    .casss-transaction-table i,
+    .purchsss-transaction-table i {
+        font-size: 0.75em;
+        vertical-align: middle;
+    }
+    
+    /* Striped rows untuk semua tabel */
+    .casss-dashboard-table tbody tr:nth-child(even),
+    .casss-finance-table tbody tr:nth-child(even),
+    .casss-inventory-table tbody tr:nth-child(even),
+    .casss-suppliers-table tbody tr:nth-child(even),
+    .casss-customers-table tbody tr:nth-child(even),
+    .casss-transaction-table tbody tr:nth-child(even),
+    .purchsss-transaction-table tbody tr:nth-child(even) {
+        background-color: #fafafa;
+    }
+    
+    /* Hover effect untuk semua tabel */
+    .casss-dashboard-table tbody tr:hover,
+    .casss-finance-table tbody tr:hover,
+    .casss-inventory-table tbody tr:hover,
+    .casss-suppliers-table tbody tr:hover,
+    .casss-customers-table tbody tr:hover,
+    .casss-transaction-table tbody tr:hover,
+    .purchsss-transaction-table tbody tr:hover {
+        background-color: #f0f8ff;
+    }
+    
+    /* Alternatif card view untuk inventory */
+    .casss-inventory-card-view {
+        display: none;
+    }
+    
+    /* Modal */
     .casss-modal-content {
         width: 100%;
         height: 100vh;
@@ -1948,13 +2409,62 @@ body {
         margin: 0;
     }
     
+    /* Footer */
     .casss-footer-links {
         grid-template-columns: 1fr;
     }
     
+    /* Tombol konfirmasi */
     .casss-confirm-buttons,
     .purchsss-confirm-buttons {
         flex-direction: column;
+    }
+    
+    /* PERBAIKAN DROPDOWN NAVIGATION */
+    .casss-navbar-menu {
+        max-height: 70vh;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .casss-dropdown-menu {
+        position: static;
+        width: 100%;
+        box-shadow: none;
+        border: none;
+        background-color: #f8f9fa;
+        max-height: 200px;
+        overflow-y: auto;
+        display: block !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        transform: none !important;
+    }
+    
+    .casss-dropdown-parent {
+        position: relative;
+    }
+    
+    .casss-dropdown-item {
+        padding-left: 2rem;
+        font-size: 0.9rem;
+    }
+    
+    /* Memastikan dropdown selalu terbuka di mobile */
+    .casss-dropdown-parent.casss-active .casss-dropdown-menu {
+        display: block !important;
+    }
+    
+    /* Indicator untuk dropdown */
+    .casss-dropdown-parent > .casss-navbar-links::after {
+        content: '▼';
+        margin-left: 0.5rem;
+        font-size: 0.7rem;
+        display: inline-block;
+    }
+    
+    .casss-dropdown-parent.casss-active > .casss-navbar-links::after {
+        transform: rotate(180deg);
     }
 }
 
