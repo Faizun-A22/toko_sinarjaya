@@ -121,7 +121,7 @@ exports.getInventoryChartData = async (req, res) => {
             SELECT k.nama_kategori, COUNT(p.id_produk) as product_count, SUM(p.stok) as total_stock
             FROM kategori k
             LEFT JOIN produk p ON k.id_kategori = p.id_kategori
-            GROUP BY k.id_kategori
+            GROUP BY k.id_kategori, k.nama_kategori
             ORDER BY total_stock DESC
         `);
         

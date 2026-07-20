@@ -109,7 +109,7 @@ exports.createProduct = async (req, res) => {
     }
 
     const categoryId = categoryCheck[0].id_kategori;
-    const isFeatured = featured === true || featured === 1 || featured === 'true' || featured === '1' ? 1 : 0;
+    const isFeatured = featured === true || featured === 1 || featured === 'true' || featured === '1';
 
     const [result] = await pool.query(`
       INSERT INTO produk 
@@ -165,7 +165,7 @@ exports.updateProduct = async (req, res) => {
     }
 
     const categoryId = categoryData[0].id_kategori;
-    const isFeatured = featured === true || featured === 1 || featured === 'true' || featured === '1' ? 1 : 0;
+    const isFeatured = featured === true || featured === 1 || featured === 'true' || featured === '1';
 
     // 2. Update produk dengan ID kategori yang ditemukan
     const [result] = await pool.query(`
@@ -252,8 +252,7 @@ exports.getPublicProducts = async (req, res) => {
         k.nama_kategori AS categoryName,
         p.featured
       FROM produk p
-      JOIN kategori k ON p.id_kategori = k.id_kategori
-      WHERE p.featured = 1 OR p.featured = true
+      WHERE p.featured = true
       ORDER BY p.tanggal_ditambahkan DESC
     `);
     
