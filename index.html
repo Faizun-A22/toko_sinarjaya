@@ -192,10 +192,10 @@
         <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center pt-16">
                 <div class="text-center md:text-left" data-aos="fade-right" data-aos-duration="800">
-                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-sans font-bold leading-tight mb-6">
+                    <h1 id="dyn-hero-title" class="text-4xl md:text-5xl lg:text-6xl font-sans font-bold leading-tight mb-6">
                         <span class="gold-gradient-text">Kemewahan</span> dalam Setiap <span class="gold-gradient-text">Detail</span>
                     </h1>
-                    <p class="text-lg md:text-xl text-gray-300 mb-8 max-w-lg">
+                    <p id="dyn-hero-subtitle" class="text-lg md:text-xl text-gray-300 mb-8 max-w-lg">
                         Temukan koleksi perhiasan emas eksklusif kami yang dirancang untuk menonjolkan keanggunan dan gaya Anda.
                     </p>
                     <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
@@ -285,75 +285,8 @@
                 </p>
             </div>
             
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Product 1 -->
-                <div class="bg-dark-800 rounded-xl overflow-hidden shadow-xl hover-scale transition-transform duration-500" data-aos="zoom-in" data-aos-delay="100">
-                    <div class="relative overflow-hidden h-64">
-                        <img src="https://images.unsplash.com/photo-1605100804763-247f67b3557e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
-                             alt="Gold Necklace" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
-                        <div class="absolute top-4 right-4 bg-gold-600 text-dark-900 px-3 py-1 rounded-full text-sm font-medium">
-                            Best Seller
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex justify-between items-start mb-2">
-                            <h3 class="text-xl font-sans font-bold text-white">Kalung Royal</h3>
-                            <span class="text-gold-500 font-bold">Rp 8.750.000</span>
-                        </div>
-                        <p class="text-gray-400 mb-4">Kalung emas 24K dengan liontan berlian kecil, desain elegan untuk acara formal.</p>
-                        <div class="flex justify-between items-center">
-                            <span class="text-sm text-gray-500">Berat: 15gr</span>
-                            <button class="text-gold-500 hover:text-gold-300 text-sm font-medium transition-colors duration-300">
-                                Lihat Detail <i class="fas fa-chevron-right ml-1"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Product 2 -->
-                <div class="bg-dark-800 rounded-xl overflow-hidden shadow-xl hover-scale transition-transform duration-500" data-aos="zoom-in" data-aos-delay="200">
-                    <div class="relative overflow-hidden h-64">
-                        <img src="goldrings.jpg" 
-                             alt="Gold Ring" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
-                    </div>
-                    <div class="p-6">
-                        <div class="flex justify-between items-start mb-2">
-                            <h3 class="text-xl font-sans font-bold text-white">Cincin Permata</h3>
-                            <span class="text-gold-500 font-bold">Rp 5.250.000</span>
-                        </div>
-                        <p class="text-gray-400 mb-4">Cincin emas 18K dengan batu permata biru alami, cocok untuk tunangan.</p>
-                        <div class="flex justify-between items-center">
-                            <span class="text-sm text-gray-500">Berat: 8gr</span>
-                            <button class="text-gold-500 hover:text-gold-300 text-sm font-medium transition-colors duration-300">
-                                Lihat Detail <i class="fas fa-chevron-right ml-1"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Product 3 -->
-                <div class="bg-dark-800 rounded-xl overflow-hidden shadow-xl hover-scale transition-transform duration-500" data-aos="zoom-in" data-aos-delay="300">
-                    <div class="relative overflow-hidden h-64">
-                        <img src="https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1887&q=80" 
-                             alt="Gold Bracelet" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
-                        <div class="absolute top-4 right-4 bg-red-600 text-white px-3 py-1 rounded-full text-sm font-medium">
-                            Limited
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex justify-between items-start mb-2">
-                            <h3 class="text-xl font-sans font-bold text-white">Gelang Mewah</h3>
-                            <span class="text-gold-500 font-bold">Rp 12.500.000</span>
-                        </div>
-                        <p class="text-gray-400 mb-4">Gelang emas 22K dengan ukiran tangan tradisional, edisi terbatas hanya 50 buah.</p>
-                        <div class="flex justify-between items-center">
-                            <span class="text-sm text-gray-500">Berat: 22gr</span>
-                            <button class="text-gold-500 hover:text-gold-300 text-sm font-medium transition-colors duration-300">
-                                Lihat Detail <i class="fas fa-chevron-right ml-1"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
+            <div id="dyn-products-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Produk akan dimuat secara dinamis dari database -->
             </div>
             
             <div class="text-center mt-12" data-aos="fade-up">
@@ -551,7 +484,7 @@
                             </div>
                             <div>
                                 <h4 class="text-lg font-medium text-white mb-1">Lokasi Toko</h4>
-                                <p class="text-gray-400">Jl. Kemang Raya No. 12, Jakarta Selatan 12730</p>
+                                <p id="dyn-shop-address" class="text-gray-400">Jl. Kemang Raya No. 12, Jakarta Selatan 12730</p>
                             </div>
                         </div>
                         
@@ -561,8 +494,9 @@
                             </div>
                             <div>
                                 <h4 class="text-lg font-medium text-white mb-1">Telepon</h4>
-                                <p class="text-gray-400">+62 21 1234 5678</p>
-                                <p class="text-gray-400">+62 812 3456 7890 (WhatsApp)</p>
+                                <a id="dyn-shop-phone-link" href="https://wa.me/6281234567890" target="_blank" class="hover:underline">
+                                    <p id="dyn-shop-phone" class="text-gray-400">+62 812 3456 7890 (WhatsApp)</p>
+                                </a>
                             </div>
                         </div>
                         
@@ -707,6 +641,44 @@
         </div>
     </footer>
 
+    <!-- Order Modal -->
+    <div id="order-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden bg-black bg-opacity-70 p-4 transition-all duration-300">
+        <div class="bg-dark-800 rounded-xl overflow-hidden shadow-2xl border border-gold-800 max-w-md w-full p-6 relative">
+            <button id="close-order-modal" class="absolute top-4 right-4 text-gray-400 hover:text-white text-xl">
+                <i class="fas fa-times"></i>
+            </button>
+            <h3 class="text-2xl font-sans font-bold gold-gradient-text mb-4">Form Pemesanan Perhiasan</h3>
+            <div class="mb-4 bg-dark-700 p-3 rounded border border-gray-600">
+                <p class="text-sm text-gray-300">Anda memesan:</p>
+                <h4 id="order-product-name" class="font-bold text-white text-lg"></h4>
+                <p id="order-product-details" class="text-xs text-gold-500"></p>
+                <p id="order-product-price" class="text-sm text-white font-bold mt-1"></p>
+            </div>
+            <form id="order-form">
+                <input type="hidden" id="order-product-id">
+                <div class="mb-4">
+                    <label for="buyer-name" class="block text-sm text-gray-300 mb-1">Nama Lengkap*</label>
+                    <input type="text" id="buyer-name" class="w-full bg-dark-700 border border-gray-600 rounded p-2 text-white focus:outline-none focus:border-gold-500" required>
+                </div>
+                <div class="mb-4">
+                    <label for="buyer-phone" class="block text-sm text-gray-300 mb-1">Nomor WhatsApp/Telepon*</label>
+                    <input type="tel" id="buyer-phone" class="w-full bg-dark-700 border border-gray-600 rounded p-2 text-white focus:outline-none focus:border-gold-500" placeholder="Contoh: 08123456789" required>
+                </div>
+                <div class="mb-4">
+                    <label for="buyer-address" class="block text-sm text-gray-300 mb-1">Alamat Lengkap Pengiriman*</label>
+                    <textarea id="buyer-address" rows="3" class="w-full bg-dark-700 border border-gray-600 rounded p-2 text-white focus:outline-none focus:border-gold-500" required></textarea>
+                </div>
+                <div class="mb-4">
+                    <label for="buyer-note" class="block text-sm text-gray-300 mb-1">Catatan Tambahan (Opsional)</label>
+                    <textarea id="buyer-note" rows="2" class="w-full bg-dark-700 border border-gray-600 rounded p-2 text-white focus:outline-none focus:border-gold-500" placeholder="Ukuran jari, panjang rantai, dll."></textarea>
+                </div>
+                <button type="submit" class="w-full bg-gold-600 hover:bg-gold-700 text-dark-900 font-bold py-3 px-6 rounded transition-all hover-scale shine-effect">
+                    Konfirmasi & Kirim via WhatsApp
+                </button>
+            </form>
+        </div>
+    </div>
+
     <!-- Back to Top Button -->
     <button id="back-to-top" class="fixed bottom-8 right-8 bg-gold-600 text-dark-900 w-12 h-12 rounded-full flex items-center justify-center shadow-lg hover:bg-gold-700 transition-colors duration-300 hidden">
         <i class="fas fa-arrow-up"></i>
@@ -773,7 +745,181 @@
                     });
                 }
             });
+        // =======================================================
+        // INTEGRASI API DINAMIS: SETTINGS & PRODUK & PESANAN
+        // =======================================================
+        const API_BASE_URL = 'http://203.194.112.254:3005';
+        let globalWhatsApp = '6281234567890'; // default fallback
+
+        // A. Muat Pengaturan Landing Page dari Database
+        async function loadPublicSettings() {
+            try {
+                const res = await fetch(`${API_BASE_URL}/api/settings/public`);
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.hero_title) {
+                        document.getElementById('dyn-hero-title').innerHTML = data.hero_title;
+                    }
+                    if (data.hero_subtitle) {
+                        document.getElementById('dyn-hero-subtitle').textContent = data.hero_subtitle;
+                    }
+                    if (data.whatsapp_number) {
+                        globalWhatsApp = data.whatsapp_number;
+                        document.getElementById('dyn-shop-phone').textContent = `+${data.whatsapp_number} (WhatsApp)`;
+                        document.getElementById('dyn-shop-phone-link').href = `https://wa.me/${data.whatsapp_number}`;
+                    }
+                    if (data.shop_address) {
+                        document.getElementById('dyn-shop-address').textContent = data.shop_address;
+                    }
+                }
+            } catch (err) {
+                console.error('Gagal mengambil settings website:', err);
+            }
+        }
+
+        // B. Muat Produk Unggulan secara Dinamis
+        async function loadPublicProducts() {
+            const container = document.getElementById('dyn-products-container');
+            if (!container) return;
+            
+            container.innerHTML = '<div class="col-span-full text-center py-10 text-gold-500"><i class="fas fa-spinner fa-spin mr-2"></i> Memuat koleksi perhiasan...</div>';
+            
+            try {
+                const res = await fetch(`${API_BASE_URL}/api/products/public`);
+                if (!res.ok) throw new Error('Gagal memuat produk');
+                const products = await res.json();
+                
+                if (products.length === 0) {
+                    container.innerHTML = '<div class="col-span-full text-center py-10 text-gray-400">Belum ada koleksi perhiasan unggulan.</div>';
+                    return;
+                }
+                
+                container.innerHTML = '';
+                products.forEach(prod => {
+                    const div = document.createElement('div');
+                    div.className = "bg-dark-800 rounded-xl overflow-hidden shadow-xl hover-scale transition-transform duration-500";
+                    div.setAttribute('data-aos', 'zoom-in');
+                    
+                    // Gunakan gambar dummy yang elegan atau placeholder perhiasan
+                    let imgUrl = 'https://images.unsplash.com/photo-1605100804763-247f67b3557e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80'; // default kalung
+                    if (prod.category.toLowerCase() === 'cincin') {
+                        imgUrl = 'https://images.unsplash.com/photo-1605100804763-247f67b3557e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80';
+                    } else if (prod.category.toLowerCase() === 'gelang') {
+                        imgUrl = 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80';
+                    } else if (prod.category.toLowerCase() === 'anting') {
+                        imgUrl = 'https://images.unsplash.com/photo-1635767798638-3e25273a8236?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80';
+                    }
+                    
+                    div.innerHTML = `
+                        <div class="relative overflow-hidden h-64">
+                            <img src="${imgUrl}" alt="${prod.name}" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
+                            ${prod.featured ? `
+                                <div class="absolute top-4 right-4 bg-gold-600 text-dark-900 px-3 py-1 rounded-full text-sm font-medium">
+                                    Unggulan
+                                </div>
+                            ` : ''}
+                        </div>
+                        <div class="p-6">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="text-xl font-sans font-bold text-white">${prod.name}</h3>
+                                <span class="text-gold-500 font-bold">Rp ${parseFloat(prod.sellPrice).toLocaleString('id-ID')}</span>
+                            </div>
+                            <p class="text-gray-400 mb-4 text-sm h-12 overflow-hidden text-ellipsis">${prod.description || 'Perhiasan emas eksklusif dengan detail yang sangat menawan.'}</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-gray-500">Berat: ${prod.weight}gr | Stok: ${prod.stock}</span>
+                                <button onclick="openOrderForm(${prod.id}, '${prod.name.replace(/'/g, "\\'")}', '${prod.category}', ${prod.weight}, ${prod.sellPrice})" class="bg-gold-600 hover:bg-gold-700 text-dark-900 text-xs font-bold py-2 px-4 rounded transition-colors duration-300">
+                                    Pesan Sekarang
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    container.appendChild(div);
+                });
+                
+                // Re-init AOS
+                AOS.refresh();
+            } catch (err) {
+                console.error(err);
+                container.innerHTML = '<div class="col-span-full text-center py-10 text-red-500">Gagal mengambil daftar produk.</div>';
+            }
+        }
+
+        // C. Logika Form & Modal Pemesanan
+        const orderModal = document.getElementById('order-modal');
+
+        window.openOrderForm = function(id, name, category, weight, price) {
+            document.getElementById('order-product-id').value = id;
+            document.getElementById('order-product-name').textContent = name;
+            document.getElementById('order-product-details').textContent = `${category} | Berat: ${weight}gr`;
+            document.getElementById('order-product-price').textContent = `Rp ${price.toLocaleString('id-ID')}`;
+            
+            // Bersihkan input form
+            document.getElementById('buyer-name').value = '';
+            document.getElementById('buyer-phone').value = '';
+            document.getElementById('buyer-address').value = '';
+            document.getElementById('buyer-note').value = '';
+            
+            orderModal.classList.remove('hidden');
+        };
+
+        document.getElementById('close-order-modal').addEventListener('click', () => {
+            orderModal.classList.add('hidden');
         });
+
+        document.getElementById('order-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const productId = document.getElementById('order-product-id').value;
+            const buyerName = document.getElementById('buyer-name').value;
+            const buyerPhone = document.getElementById('buyer-phone').value;
+            const buyerAddress = document.getElementById('buyer-address').value;
+            const buyerNote = document.getElementById('buyer-note').value;
+            const productName = document.getElementById('order-product-name').textContent;
+            const productPrice = document.getElementById('order-product-price').textContent;
+            
+            const orderData = {
+                id_produk: productId,
+                nama_pembeli: buyerName,
+                telepon_pembeli: buyerPhone,
+                alamat_pembeli: buyerAddress,
+                catatan: buyerNote
+            };
+            
+            try {
+                // 1. Simpan pesanan ke database backend
+                const res = await fetch(`${API_BASE_URL}/api/pesanan/public`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(orderData)
+                });
+                
+                if (!res.ok) throw new Error('Gagal mencatat pesanan');
+                
+                // 2. Format pesan WhatsApp
+                const text = encodeURIComponent(`Halo Toko Sinar Jaya Emas, saya ingin memesan perhiasan berikut:\n\n` +
+                    `*Produk:* ${productName}\n` +
+                    `*Harga:* ${productPrice}\n\n` +
+                    `*Detail Pembeli:*\n` +
+                    `- Nama: ${buyerName}\n` +
+                    `- Telp/WA: ${buyerPhone}\n` +
+                    `- Alamat Kirim: ${buyerAddress}\n` +
+                    `${buyerNote ? `- Catatan: ${buyerNote}\n` : ''}\n` +
+                    `Mohon bantuannya untuk memproses pesanan saya. Terima kasih!`);
+                
+                // Buka chat WhatsApp
+                window.open(`https://wa.me/${globalWhatsApp}?text=${text}`, '_blank');
+                
+                orderModal.classList.add('hidden');
+                alert('Pesanan Anda berhasil dicatat! Chat WhatsApp sedang dibuka untuk memproses transaksi.');
+            } catch (err) {
+                console.error(err);
+                alert('Terjadi kesalahan saat memproses pesanan Anda. Silakan coba lagi.');
+            }
+        });
+
+        // Panggilan awal saat halaman dibuka
+        loadPublicSettings();
+        loadPublicProducts();
     </script>
 </body>
 </html>

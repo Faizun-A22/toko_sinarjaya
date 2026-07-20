@@ -52,10 +52,18 @@ const getAllPurchases = async (req, res) => {
         }
         
         if (date) {
-            query += ` AND DATE(p.tanggal_pembelian) = ?`;
-            countQuery += ` AND DATE(p.tanggal_pembelian) = ?`;
-            params.push(date);
-            countParams.push(date);
+            if (date.includes(',')) {
+                const [startDate, endDate] = date.split(',');
+                query += ` AND DATE(p.tanggal_pembelian) BETWEEN ? AND ?`;
+                countQuery += ` AND DATE(p.tanggal_pembelian) BETWEEN ? AND ?`;
+                params.push(startDate.trim(), endDate.trim());
+                countParams.push(startDate.trim(), endDate.trim());
+            } else {
+                query += ` AND DATE(p.tanggal_pembelian) = ?`;
+                countQuery += ` AND DATE(p.tanggal_pembelian) = ?`;
+                params.push(date);
+                countParams.push(date);
+            }
         }
 
         // Hitung total data
@@ -237,13 +245,15 @@ const createPurchase = async (req, res) => {
                 id_supplier,
                 tanggal_pembelian,
                 total_harga,
+                metode_pembayaran,
                 catatan
-            ) VALUES (?, ?, ?, ?, ?)
+            ) VALUES (?, ?, ?, ?, ?, ?)
         `, [
             purchase_number,
             supplier_id,
             purchase_date,
             total_amount,
+            payment_method || 'Transfer Bank',
             notes || null
         ]);
 

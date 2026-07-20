@@ -22,32 +22,29 @@
             </div>
             <ul class="casss-navbar-menu">
                 <li class="casss-navbar-item">
-                    <a href="#home" class="casss-navbar-links casss-active">Beranda</a>
+                    <a href="#home" class="casss-navbar-links casss-active"><i class="fas fa-home"></i> Beranda</a>
                 </li>
-                <li class="casss-navbar-item casss-dropdown">
-                    <a href="#" class="casss-navbar-links">
-                        Keuangan <i class="fas fa-chevron-down casss-dropdown-icon"></i>
-                    </a>
-                    <div class="casss-dropdown-content">
-                        <a href="#financial-report" class="casss-dropdown-item">Laporan Keuangan</a>
-                        <a href="#transaksi" class="casss-dropdown-item">Transaksi Penjualan</a>
-                        <a href="#purchase-transaction" class="casss-dropdown-item">Transaksi Pembelian</a>
-                    </div>
+                <li class="casss-navbar-item">
+                    <a href="#inventory" class="casss-navbar-links"><i class="fas fa-boxes"></i> Stok Emas</a>
                 </li>
-                <li class="casss-navbar-item casss-dropdown">
-                    <a href="#" class="casss-navbar-links">
-                        Manajemen <i class="fas fa-chevron-down casss-dropdown-icon"></i>
-                    </a>
-                     <div class="casss-dropdown-content">
-                        <a href="#inventory" class="casss-dropdown-item">Inventory Control</a>
-                        <a href="#suppliers" class="casss-dropdown-item">Supplier</a>
-                        <a href="#customers" class="casss-dropdown-item">Customer</a>
-                    </div>
+                <li class="casss-navbar-item">
+                    <a href="#pesanan-masuk" class="casss-navbar-links"><i class="fas fa-shopping-bag"></i> Pesanan Masuk</a>
                 </li>
-<li class="casss-navbar-btn">
-    <a href="../landingPage.html" class="casss-button">Logout</a>
-</li>
-
+                <li class="casss-navbar-item">
+                    <a href="#transaksi" class="casss-navbar-links"><i class="fas fa-receipt"></i> Transaksi Toko</a>
+                </li>
+                <li class="casss-navbar-item">
+                    <a href="#customers" class="casss-navbar-links"><i class="fas fa-users"></i> Pelanggan</a>
+                </li>
+                <li class="casss-navbar-item">
+                    <a href="#suppliers" class="casss-navbar-links"><i class="fas fa-handshake"></i> Supplier</a>
+                </li>
+                <li class="casss-navbar-item">
+                    <a href="#settings" class="casss-navbar-links"><i class="fas fa-cog"></i> Pengaturan Web</a>
+                </li>
+                <li class="casss-navbar-btn">
+                    <a href="#" id="casss-logout-btn" class="casss-button"><i class="fas fa-sign-out-alt"></i> Keluar</a>
+                </li>
             </ul>
         </div>
     </nav>
@@ -1018,6 +1015,13 @@
                     </div>
                 </div>
                 
+                <div class="casss-form-group" style="margin-bottom: 15px;">
+                    <label class="casss-form-label" style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-weight: 500;">
+                        <input type="checkbox" id="casss-product-featured" style="width: 18px; height: 18px; accent-color: #F9A825; cursor: pointer;">
+                        <span>Tampilkan di Landing Page (Produk Unggulan)</span>
+                    </label>
+                </div>
+                
                 <div class="casss-form-group">
                     <label for="casss-product-description" class="casss-form-label">Deskripsi</label>
                     <textarea id="casss-product-description" class="casss-form-textarea" rows="3"></textarea>
@@ -1268,8 +1272,71 @@
     </div>
 </section>
 
+<!-- Pesanan Masuk Section -->
+<section id="pesanan-masuk" class="casss-section">
+    <div class="casss-inventory-container">
+        <h2 class="casss-section-title">Pesanan Masuk (Website)</h2>
+        <div style="margin-bottom: 15px; color: var(--gold-700); font-weight: 500;">
+            <i class="fas fa-info-circle"></i> Pesanan yang masuk dari website depan. Klik "Hubungi Pembeli" untuk langsung memproses via WhatsApp.
+        </div>
+        <div class="casss-inventory-table-container">
+            <table class="casss-inventory-table">
+                <thead>
+                    <tr>
+                        <th class="casss-table-header">Tanggal</th>
+                        <th class="casss-table-header">Pelanggan</th>
+                        <th class="casss-table-header">No. WA / Telp</th>
+                        <th class="casss-table-header">Barang Pesanan</th>
+                        <th class="casss-table-header">Harga Jual</th>
+                        <th class="casss-table-header">Status</th>
+                        <th class="casss-table-header">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody id="casss-orders-body">
+                    <!-- Data akan diisi oleh JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
 
-        <!-- Contact Section -->
+<!-- Pengaturan Web Section (CMS) -->
+<section id="settings" class="casss-section">
+    <div class="casss-inventory-container">
+        <h2 class="casss-section-title">Pengaturan Website Depan (Landing Page)</h2>
+        <div style="margin-bottom: 15px; color: var(--gold-700); font-weight: 500;">
+            <i class="fas fa-edit"></i> Edit teks, nomor kontak, dan alamat pada Landing Page secara instan.
+        </div>
+        <div style="background-color: var(--white); border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); padding: 25px; max-width: 800px; margin: 20px 0; border: 1px solid var(--gray-300);">
+            <form id="casss-settings-form">
+                <div style="margin-bottom: 20px;">
+                    <label class="casss-form-label" style="font-weight: 600; display: block; margin-bottom: 8px; color: var(--dark-900);">Judul Utama (Hero Title)</label>
+                    <input type="text" id="casss-set-hero-title" class="casss-form-input" style="width: 100%; box-sizing: border-box; padding: 10px;" required>
+                </div>
+                
+                <div style="margin-bottom: 20px;">
+                    <label class="casss-form-label" style="font-weight: 600; display: block; margin-bottom: 8px; color: var(--dark-900);">Sub-judul Utama (Hero Subtitle)</label>
+                    <textarea id="casss-set-hero-subtitle" class="casss-form-textarea" style="width: 100%; box-sizing: border-box; padding: 10px;" rows="3" required></textarea>
+                </div>
+                
+                <div style="margin-bottom: 20px;">
+                    <label class="casss-form-label" style="font-weight: 600; display: block; margin-bottom: 8px; color: var(--dark-900);">Nomor WhatsApp Toko (Mulai dengan 628xxx)</label>
+                    <input type="text" id="casss-set-whatsapp" class="casss-form-input" style="width: 100%; box-sizing: border-box; padding: 10px;" placeholder="Contoh: 628123456789" required>
+                    <small style="color: #666; display: block; margin-top: 4px;">Harus dimulai dengan kode negara (62 untuk Indonesia) tanpa spasi atau tanda +. Contoh: 628123456789</small>
+                </div>
+                
+                <div style="margin-bottom: 20px;">
+                    <label class="casss-form-label" style="font-weight: 600; display: block; margin-bottom: 8px; color: var(--dark-900);">Alamat Toko</label>
+                    <textarea id="casss-set-address" class="casss-form-textarea" style="width: 100%; box-sizing: border-box; padding: 10px;" rows="2" required></textarea>
+                </div>
+                
+                <button type="submit" class="casss-form-submit" style="padding: 12px 24px; font-weight: 600; background-color: var(--gold-600); color: var(--dark-900); border: none; border-radius: 4px; cursor: pointer; transition: background-color 0.3s;">Simpan Perubahan Web</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Section -->
        
     </div>
 

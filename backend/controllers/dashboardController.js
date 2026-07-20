@@ -84,8 +84,8 @@ exports.getSalesChartData = async (req, res) => {
         const result = [];
         
         for (let i = 5; i >= 0; i--) {
-            const date = new Date(currentDate);
-            date.setMonth(date.getMonth() - i);
+            // Inisialisasi tanggal pada hari ke-1 untuk menghindari bug luapan hari (month-day overflow)
+            const date = new Date(currentDate.getFullYear(), currentDate.getMonth() - i, 1);
             
             const month = date.getMonth() + 1;
             const year = date.getFullYear();

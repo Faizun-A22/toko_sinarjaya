@@ -1,20 +1,16 @@
 const express = require('express');
 const router = express.Router();
 const productController = require('../controllers/productController');
+const authMiddleware = require('../middleware/authMiddleware');
 
-// GET semua produk
-router.get('/', productController.getAllProducts);
+// GET produk unggulan untuk landing page (Publik, tidak butuh login)
+router.get('/public', productController.getPublicProducts);
 
-// GET produk berdasarkan ID
-router.get('/:id', productController.getProductById);
-
-// POST produk baru
-router.post('/', productController.createProduct);
-
-// PUT (update) produk
-router.put('/:id', productController.updateProduct);
-
-// DELETE produk
-router.delete('/:id', productController.deleteProduct);
+// Rute privat terproteksi JWT
+router.get('/', authMiddleware, productController.getAllProducts);
+router.get('/:id', authMiddleware, productController.getProductById);
+router.post('/', authMiddleware, productController.createProduct);
+router.put('/:id', authMiddleware, productController.updateProduct);
+router.delete('/:id', authMiddleware, productController.deleteProduct);
 
 module.exports = router;

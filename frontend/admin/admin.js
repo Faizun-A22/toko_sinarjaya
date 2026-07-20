@@ -1,6 +1,25 @@
+// Intersepsi fetch global untuk menyisipkan token JWT otomatis ke setiap request backend
+const originalFetch = window.fetch;
+window.fetch = function (url, options) {
+    options = options || {};
+    options.headers = options.headers || {};
+    const token = localStorage.getItem('token');
+    if (token) {
+        options.headers['Authorization'] = `Bearer ${token}`;
+    }
+    return originalFetch(url, options);
+};
+
 // Casss SPA Navigation
-const API_BASE_URL = 'http://localhost:3000'; 
+const API_BASE_URL = 'http://203.194.112.254:3005'; 
 document.addEventListener('DOMContentLoaded', function() {
+    // Cek Sesi Login JWT
+    const token = localStorage.getItem('token');
+    const user = JSON.parse(localStorage.getItem('user') || 'null');
+    if (!token || !user) {
+        window.location.href = '../../login.html';
+        return;
+    }
     // Mobile menu toggle
     const mobileMenu = document.getElementById('casss-mobile-menu');
     const navbarMenu = document.querySelector('.casss-navbar-menu');
@@ -79,8 +98,28 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
         
+        // Panggil data baru sesuai tab yang diklik
+        if (sectionId === 'pesanan-masuk') {
+            loadOrders();
+        } else if (sectionId === 'settings') {
+            loadCMSConfig();
+        }
+        
         // Scroll to top
         window.scrollTo(0, 0);
+    }
+
+    // Penanganan Tombol Logout
+    const logoutBtn = document.getElementById('casss-logout-btn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (confirm('Apakah Anda yakin ingin keluar?')) {
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
+                window.location.href = '../../login.html';
+            }
+        });
     }
     
     // Handle nav link clicks
@@ -158,7 +197,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 document.addEventListener('DOMContentLoaded', () => {
-  const API_URL = 'http://localhost:3000/api';
+  const API_URL = 'http://203.194.112.254:3005/api';
   
   // Elemen DOM utama
   const reportTableBody = document.getElementById('casss-report-body');
@@ -1040,7 +1079,7 @@ async function loadTransactions() {
     // Fungsi untuk memuat daftar produk
     async function loadProducts() {
         try {
-           const response = await fetch('http://localhost:3000/api/transaksi/products/list');
+           const response = await fetch('http://203.194.112.254:3005/api/transaksi/products/list');
             products = await response.json();
 
             // Update product dropdown in item modal
@@ -1303,8 +1342,8 @@ async function saveTransaction(e) {
         console.log('Data lengkap yang dikirim:', transactionData); // Debugging
         
         const url = currentTransactionId 
-            ? `http://localhost:3000/api/transaksi/${currentTransactionId}`
-            : 'http://localhost:3000/api/transaksi';
+            ? `http://203.194.112.254:3005/api/transaksi/${currentTransactionId}`
+            : 'http://203.194.112.254:3005/api/transaksi';
             
         const response = await fetch(url, {
             method: currentTransactionId ? 'PUT' : 'POST',
@@ -1330,7 +1369,7 @@ async function saveTransaction(e) {
 }
 
 
-const API_URL = 'http://localhost:3000/api';
+const API_URL = 'http://203.194.112.254:3005/api';
 
     // Fungsi untuk melihat detail transaksi
 async function viewTransaction(id) {
@@ -1389,7 +1428,7 @@ async function viewTransaction(id) {
     // Fungsi untuk mengedit transaksi
 async function editTransaction(id) {
     try {
-        const response = await fetch(`http://localhost:3000/api/transaksi/${id}`);
+        const response = await fetch(`http://203.194.112.254:3005/api/transaksi/${id}`);
         const transaction = await response.json();
         
         if (response.ok) {
@@ -1446,7 +1485,7 @@ async function editTransaction(id) {
     // Fungsi untuk menghapus transaksi
     async function confirmDeleteTransaction() {
     try {
-        const response = await fetch(`http://localhost:3000/api/transaksi/${currentTransactionId}`, {
+        const response = await fetch(`http://203.194.112.254:3005/api/transaksi/${currentTransactionId}`, {
             method: 'DELETE'
         });
         
@@ -1532,7 +1571,7 @@ async function editTransaction(id) {
 // Purchase Transaction Module
 document.addEventListener('DOMContentLoaded', function() {
     // Configuration
-    const API_BASE_URL = 'http://localhost:3000/api/purchases';
+    const API_BASE_URL = 'http://203.194.112.254:3005/api/purchases';
     const ITEMS_PER_PAGE = 10;
     
     // State variables
@@ -2318,7 +2357,7 @@ const confirmDeletePurchase = async () => {
 // Inventory Control CRUD Operations
 document.addEventListener('DOMContentLoaded', function() {
     // ... (kode sebelumnya)
-    const API_BASE_URL = 'http://localhost:3000';
+    const API_BASE_URL = 'http://203.194.112.254:3005';
     // Data contoh produk (akan diganti dengan data dari database)
     let inventoryProducts = [  ];
     
@@ -2342,7 +2381,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
 async function fetchProducts() {
   try {
-    const response = await fetch('http://localhost:3000/api/products');
+    const response = await fetch('http://203.194.112.254:3005/api/products');
     if (!response.ok) throw new Error('Network response was not ok');
     
     const data = await response.json();
@@ -2508,6 +2547,8 @@ if (product.stock === 0) {
         productModalTitle.textContent = 'Tambah Produk Baru';
         productForm.reset();
         document.getElementById('casss-product-id').value = '';
+        const featChk = document.getElementById('casss-product-featured');
+        if (featChk) featChk.checked = false;
         productModal.style.display = 'block';
     }
     
@@ -2528,6 +2569,8 @@ if (product.stock === 0) {
             document.getElementById('casss-product-buy-price').value = product.buyPrice;
             document.getElementById('casss-product-sell-price').value = product.sellPrice;
             document.getElementById('casss-product-description').value = product.description || '';
+            const featChk = document.getElementById('casss-product-featured');
+            if (featChk) featChk.checked = !!product.featured;
             productModal.style.display = 'block';
         }
     }
@@ -2550,12 +2593,13 @@ if (product.stock === 0) {
         stock: parseInt(document.getElementById('casss-product-stock').value),
         buyPrice: parseInt(document.getElementById('casss-product-buy-price').value),
         sellPrice: parseInt(document.getElementById('casss-product-sell-price').value),
-        description: document.getElementById('casss-product-description').value
+        description: document.getElementById('casss-product-description').value,
+        featured: document.getElementById('casss-product-featured')?.checked ? 1 : 0
     };
     
     const url = currentProductId 
-        ? `http://localhost:3000/api/products/${currentProductId}`
-        : 'http://localhost:3000/api/products';
+        ? `http://203.194.112.254:3005/api/products/${currentProductId}`
+        : 'http://203.194.112.254:3005/api/products';
         
     const method = currentProductId ? 'PUT' : 'POST';
 
@@ -2607,7 +2651,7 @@ if (product.stock === 0) {
         inventoryProducts = inventoryProducts.filter(product => product.id !== currentProductId);
         
         // Di sini Anda akan mengirim permintaan DELETE ke server
-        fetch(`http://localhost:3000/api/products/${currentProductId}`, {
+        fetch(`http://203.194.112.254:3005/api/products/${currentProductId}`, {
             method: 'DELETE'
         })
         .then(response => {
@@ -2755,7 +2799,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // Functions
  async function loadSuppliers() {
   try {
-    const response = await fetch('http://localhost:3000/api/suppliers');
+    const response = await fetch('http://203.194.112.254:3005/api/suppliers');
     if (!response.ok) throw new Error('Failed to fetch suppliers');
     
     suppliers = await response.json();
@@ -3120,7 +3164,7 @@ async function handleSupplierSubmit(e) {
     if (!supplierToDelete) return;
     
     try {
- const response = await fetch(`http://localhost:3000/api/suppliers/${supplierToDelete}`, {
+ const response = await fetch(`http://203.194.112.254:3005/api/suppliers/${supplierToDelete}`, {
         method: 'DELETE'
       });
       
@@ -3181,27 +3225,27 @@ document.addEventListener('DOMContentLoaded', function() {
 async function loadDashboardData() {
     try {
         // Load summary data
-        const summaryResponse = await fetch('http://localhost:3000/api/dashboard/summary');
+        const summaryResponse = await fetch('http://203.194.112.254:3005/api/dashboard/summary');
         const summaryData = await summaryResponse.json();
         updateSummaryCards(summaryData);
 
         // Load sales chart data
-        const salesResponse = await fetch('http://localhost:3000/api/dashboard/sales-chart');
+        const salesResponse = await fetch('http://203.194.112.254:3005/api/dashboard/sales-chart');
         const salesData = await salesResponse.json();
         renderSalesChart(salesData);
 
         // Load inventory chart data
-        const inventoryResponse = await fetch('http://localhost:3000/api/dashboard/inventory-chart');
+        const inventoryResponse = await fetch('http://203.194.112.254:3005/api/dashboard/inventory-chart');
         const inventoryData = await inventoryResponse.json();
         renderInventoryChart(inventoryData);
 
         // Load recent transactions
-        const transactionsResponse = await fetch('http://localhost:3000/api/dashboard/recent-transactions');
+        const transactionsResponse = await fetch('http://203.194.112.254:3005/api/dashboard/recent-transactions');
         const transactionsData = await transactionsResponse.json();
         populateRecentTransactions(transactionsData);
 
         // Load low stock items
-        const lowStockResponse = await fetch('http://localhost:3000/api/dashboard/low-stock');
+        const lowStockResponse = await fetch('http://203.194.112.254:3005/api/dashboard/low-stock');
         const lowStockData = await lowStockResponse.json();
         populateLowStockItems(lowStockData);
 
@@ -3212,6 +3256,7 @@ async function loadDashboardData() {
 }
 function updateSummaryCards(data) {
     function isValidNumber(val) {
+        if (typeof val === 'string') val = parseFloat(val);
         return typeof val === 'number' && !isNaN(val) && isFinite(val);
     }
 
@@ -3423,7 +3468,7 @@ function openRestockModal(productId) {
 
 
 document.addEventListener('DOMContentLoaded', () => {
-  const API_URL = 'http://localhost:3000/api/customers';
+  const API_URL = 'http://203.194.112.254:3005/api/customers';
 
   const customerTableBody = document.getElementById('casss-customers-body');
   const addBtn = document.getElementById('casss-add-customer');
@@ -3542,6 +3587,158 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
   };
+
+  // =======================================================
+  // KELOLA PESANAN MASUK & CMS LANDING PAGE
+  // =======================================================
+  async function loadOrders() {
+      const tbody = document.getElementById('casss-orders-body');
+      if (!tbody) return;
+      
+      tbody.innerHTML = '<tr><td colspan="7" class="casss-table-data" style="text-align:center;">Memuat data pesanan...</td></tr>';
+      
+      try {
+          const response = await fetch(`${API_BASE_URL}/api/pesanan`);
+          if (!response.ok) throw new Error('Gagal memuat pesanan');
+          const orders = await response.json();
+          
+          if (orders.length === 0) {
+              tbody.innerHTML = '<tr><td colspan="7" class="casss-table-data" style="text-align:center;">Tidak ada pesanan masuk.</td></tr>';
+              return;
+          }
+          
+          tbody.innerHTML = '';
+          orders.forEach(order => {
+              const date = new Date(order.tanggal_pesanan).toLocaleDateString('id-ID', {
+                  year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
+              });
+              const tr = document.createElement('tr');
+              
+              let statusBadgeColor = 'background: #FFE082; color: #8F6B00;'; // Pending (yellow)
+              if (order.status === 'Selesai') statusBadgeColor = 'background: #C8E6C9; color: #1B5E20;';
+              if (order.status === 'Dibatalkan') statusBadgeColor = 'background: #FFCDD2; color: #B71C1C;';
+              
+              tr.innerHTML = `
+                  <td class="casss-table-data">${date}</td>
+                  <td class="casss-table-data"><strong>${order.nama_pembeli}</strong><br><small style="color:#666;">${order.alamat_pembeli}</small></td>
+                  <td class="casss-table-data">${order.telepon_pembeli}</td>
+                  <td class="casss-table-data"><strong>${order.nama_produk || 'Barang Dihapus'}</strong><br><small style="color:#666;">${order.berat || 0}gr | Kode: ${order.kode_produk || '-'}</small></td>
+                  <td class="casss-table-data">Rp ${(parseFloat(order.harga_jual || 0)).toLocaleString('id-ID')}</td>
+                  <td class="casss-table-data"><span style="padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; ${statusBadgeColor}">${order.status}</span></td>
+                  <td class="casss-table-data">
+                      <button class="casss-action-button" style="background:#4CAF50; color:white; border:none; padding:6px 12px; border-radius:4px; font-size:12px; cursor:pointer;" onclick="hubungiPembeli('${order.telepon_pembeli}', '${order.nama_produk || ''}')"><i class="fab fa-whatsapp"></i> Hubungi</button>
+                      ${order.status === 'Pending' ? `
+                          <button class="casss-action-button" style="background:#2196F3; color:white; border:none; padding:6px 12px; border-radius:4px; font-size:12px; cursor:pointer;" onclick="selesaikanPesanan(${order.id_pesanan})"><i class="fas fa-check"></i> Selesai</button>
+                          <button class="casss-action-button" style="background:#f44336; color:white; border:none; padding:6px 12px; border-radius:4px; font-size:12px; cursor:pointer;" onclick="batalkanPesanan(${order.id_pesanan})"><i class="fas fa-times"></i> Batal</button>
+                      ` : ''}
+                  </td>
+              `;
+              tbody.appendChild(tr);
+          });
+      } catch (error) {
+          console.error(error);
+          tbody.innerHTML = '<tr><td colspan="7" class="casss-table-data" style="text-align:center; color:red;">Gagal memuat pesanan.</td></tr>';
+      }
+  }
+
+  // B. CMS KONFIGURASI LANDING PAGE
+  async function loadCMSConfig() {
+      try {
+          const response = await fetch(`${API_BASE_URL}/api/settings`);
+          if (!response.ok) throw new Error('Gagal memuat pengaturan');
+          const config = await response.json();
+          
+          document.getElementById('casss-set-hero-title').value = config.hero_title || '';
+          document.getElementById('casss-set-hero-subtitle').value = config.hero_subtitle || '';
+          document.getElementById('casss-set-whatsapp').value = config.whatsapp_number || '';
+          document.getElementById('casss-set-address').value = config.shop_address || '';
+      } catch (error) {
+          console.error(error);
+          alert('Gagal mengambil konfigurasi website.');
+      }
+  }
+
+  // Event Listener Pengaturan Website
+  const settingsForm = document.getElementById('casss-settings-form');
+  if (settingsForm) {
+      settingsForm.addEventListener('submit', async function(e) {
+          e.preventDefault();
+          const data = {
+              hero_title: document.getElementById('casss-set-hero-title').value,
+              hero_subtitle: document.getElementById('casss-set-hero-subtitle').value,
+              whatsapp_number: document.getElementById('casss-set-whatsapp').value,
+              shop_address: document.getElementById('casss-set-address').value
+          };
+          
+          try {
+              const response = await fetch(`${API_BASE_URL}/api/settings`, {
+                  method: 'PUT',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify(data)
+              });
+              if (response.ok) {
+                  alert('Pengaturan website berhasil disimpan!');
+                  loadCMSConfig();
+              } else {
+                  const resData = await response.json();
+                  alert(resData.message || 'Gagal menyimpan pengaturan.');
+              }
+          } catch (error) {
+              console.error(error);
+              alert('Gagal menghubungi server.');
+          }
+      });
+  }
+
+  // Ekspos fungsi kelola pesanan ke scope global window
+  window.hubungiPembeli = function(phone, productName) {
+      const rawPhone = phone.replace(/[^0-9]/g, '');
+      const cleanPhone = rawPhone.startsWith('0') ? '62' + rawPhone.slice(1) : rawPhone;
+      const text = encodeURIComponent(`Halo, saya Admin dari Toko Sinar Jaya Emas ingin menindaklanjuti pesanan Anda untuk perhiasan: ${productName}.`);
+      window.open(`https://wa.me/${cleanPhone}?text=${text}`, '_blank');
+  };
+
+  window.selesaikanPesanan = async function(id) {
+      if (!confirm('Tandai pesanan ini sebagai SELESAI?')) return;
+      try {
+          const response = await fetch(`${API_BASE_URL}/api/pesanan/${id}`, {
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ status: 'Selesai' })
+          });
+          if (response.ok) {
+              alert('Pesanan selesai diproses!');
+              loadOrders();
+          } else {
+              alert('Gagal mengupdate status pesanan.');
+          }
+      } catch (e) {
+          console.error(e);
+      }
+  };
+
+  window.batalkanPesanan = async function(id) {
+      if (!confirm('Apakah Anda yakin ingin membatalkan pesanan ini?')) return;
+      try {
+          const response = await fetch(`${API_BASE_URL}/api/pesanan/${id}`, {
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ status: 'Dibatalkan' })
+          });
+          if (response.ok) {
+              alert('Pesanan dibatalkan.');
+              loadOrders();
+          } else {
+              alert('Gagal mengupdate status pesanan.');
+          }
+      } catch (e) {
+          console.error(e);
+      }
+  };
+
+  // Ekspos pemanggilan fungsi untuk routing eksternal
+  window.loadOrders = loadOrders;
+  window.loadCMSConfig = loadCMSConfig;
 
   // Initial load
   loadCustomers();

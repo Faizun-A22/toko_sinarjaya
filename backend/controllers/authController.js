@@ -1,5 +1,7 @@
-// Cukup cek password langsung tanpa hash
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const pool = require('../config/db');
+
 exports.loginUser = async (req, res) => {
   const { email, password } = req.body;
 
@@ -12,12 +14,27 @@ exports.loginUser = async (req, res) => {
 
     const user = rows[0];
 
-    if (password !== user.password) {
+    // Bandingkan password yang diinput dengan password hash di database menggunakan bcrypt
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
       return res.status(401).json({ message: 'Password salah' });
     }
 
+    // Buat token JWT untuk sesi
+    const token = jwt.sign(
+      {
+        id: user.id,
+        nama: user.nama,
+        email: user.email,
+        role: user.role
+      },
+      process.env.JWT_SECRET || 'jwtsecret_fallback',
+      { expiresIn: '24h' }
+    );
+
     return res.status(200).json({
       message: 'Login berhasil',
+      token: token,
       user: {
         id: user.id,
         nama: user.nama,
